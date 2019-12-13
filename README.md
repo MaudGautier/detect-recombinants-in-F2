@@ -17,7 +17,7 @@ Clone the repository
 To clone the repository, use this command line:
 
 ```
-
+git clone git@github.com:MaudGautier/detect-recombinants-in-F1.git
 ```
 
 
