@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-####                           GLOBAL VARIABLES                            ####
+###                              PARAMETERS                               ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # Default parameters
@@ -86,7 +85,7 @@ bwa mem -M $genome_fasta \
 ####                             PREPROCESSING                             ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-# Transform sam -> bam
+# Transform SAM to BAM
 samtools view -bhS ${output_prefix}.sam -o ${output_prefix}.bam
 
 # Sort alignments 
@@ -115,7 +114,7 @@ java -jar $PICARD/MarkDuplicates.jar \
 ####               FILTER DATA TO GET PROPER FRAGMENTS ONLY                ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-# Filter data
+# Filter fragments
 samtools view -h \
 	-f 0x2 \
 	-F 0x4 \
@@ -124,7 +123,7 @@ samtools view -h \
 	${output_prefix}.sorted.markedDup.bam \
 	> ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.sam
 
-# Turn to Bam file
+# Turn to BAM file
 samtools view \
 	-bhS ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.sam \
 	-o ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.bam   
@@ -135,17 +134,17 @@ rm -f ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.sam
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-####                 SEPARATING INTO INTERVALS AND TARGETS                 ####
+####                          SUBSET TO INTERVALS                          ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-# Intervals (for the GATK pipeline)
+# Intersect with BED file
 intersectBed -abam ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.bam \
 	-b $intervals_bedfile \
 	> ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.onIntervals.bam
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-####                            REMOVE PBS FILE                            ####
+####                        DELETE SUBMISSION FILE                         ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 if [ ! -z $sub_file  ] ; then
