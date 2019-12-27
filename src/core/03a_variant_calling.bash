@@ -26,11 +26,11 @@ do
 			shift
 			;;
 		-g|--genome)
-			genome_fasta="$2"
+			genome="$2"
 			shift # past argument
 			;;
 		-ks|--known_snps)
-			known_snps="$2"
+			known_SNPs="$2"
 			shift
 			;;
 		-ki|--known_indels)
@@ -52,8 +52,8 @@ echo CONFIG FILE	 = "${config_file}"
 echo SAMPLE NAME	 = "${sample_name}"
 echo INPUT FILE      = "${input_file}"
 echo OUTPUT PREFIX   = "${output_prefix}"
-echo GENOME FASTA	 = "${genome_fasta}"
-echo KNOWN SNPS		 = "${known_snps}"
+echo GENOME FASTA	 = "${genome}"
+echo KNOWN SNPS		 = "${known_SNPs}"
 echo KNOWN INDELS	 = "${known_indels}"
 echo SUBMISSION FILE = "${sub_file}"
 
