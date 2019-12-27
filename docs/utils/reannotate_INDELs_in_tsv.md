@@ -1,5 +1,5 @@
-README for ``reannotate_INDEL_sequences_in_tsv.awk``
-====================================================
+README for ``reannotate_INDELs_in_tsv.awk``
+===========================================
 
 Description
 -----------
@@ -51,9 +51,9 @@ Usage
 -----
 
 ```
-Usage: awk -f ./reannotate_INDEL_sequences_in_tsv.awk INPUT_TSV
+Usage: awk -f ./reannotate_INDELs_in_tsv.awk INPUT_TSV
   Parameters:
-   INPUT_TSV Input TSV file (obtained with the tool sam2tsv).
+   INPUT_TSV Input TSV file (obtained with the tool sam2tsv)
 ```
 
 
