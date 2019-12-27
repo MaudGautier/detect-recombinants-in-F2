@@ -56,6 +56,6 @@ Requirements
 * samtools 1.9
 * PicardTools 1.98
 * GATK 3.8
-* java 1.7
+* java 1.8
 
 

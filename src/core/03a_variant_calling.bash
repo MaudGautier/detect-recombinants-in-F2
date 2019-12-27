@@ -21,8 +21,8 @@ do
 			input_file="$2"
 			shift # past argument
 			;;
-		-s|--sample_name)
-			sample_name="$2"
+		-n|--name_sample)
+			name_sample="$2"
 			shift
 			;;
 		-g|--genome)
@@ -49,7 +49,7 @@ do
 done
 
 echo CONFIG FILE	 = "${config_file}"
-echo SAMPLE NAME	 = "${sample_name}"
+echo NAME SAMPLE	 = "${name_sample}"
 echo INPUT FILE      = "${input_file}"
 echo OUTPUT PREFIX   = "${output_prefix}"
 echo GENOME FASTA	 = "${genome}"
@@ -91,10 +91,10 @@ java -Xmx6g -jar $PICARD/AddOrReplaceReadGroups.jar \
 	INPUT=${output_prefix}.nodup_reads.bam \
 	OUTPUT=${output_prefix}.addrg_reads.bam \
 	RGID=$rgid \
-	RGLB=lib.$sample_name \
+	RGLB=lib.$name_sample \
 	RGPL=illumina \
 	RGPU=$rgid \
-	RGSM=$sample_name
+	RGSM=$name_sample
 
 # 4. Index the BAM file for futher use
 java -jar $PICARD/BuildBamIndex.jar \
