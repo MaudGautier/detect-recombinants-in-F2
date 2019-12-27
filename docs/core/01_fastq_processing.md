@@ -13,7 +13,7 @@ Usage
 ```
 Usage: bash ./01_fastq_processing.bash [-s SUBMISSION_FILE] -c CONFIG -i PREFIX_INPUT_FASTQ -o PREFIX_OUTPUT_FASTQ -d FASTQC_DIRECTORY -a ADAPTER 
   Options:
-   -s SUBMISSION_FILE
+   -s, --sub SUBMISSION_FILE
              Path to the submission file
   Parameters:
    -c, --config, --source CONFIG

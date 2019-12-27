@@ -26,7 +26,7 @@ Usage
 ```
 Usage: bash ./03a_variant_calling.bash [-s SUBMISSION_FILE] -c CONFIG -i INPUT_BAM -o OUTPUT_PREFIX_VCF -s SAMPLE_NAME -g GENOME_FASTA -ks KNOWN_SNPS -ki KNOWN_INDELS
   Options:
-   -s SUBMISSION_FILE
+   -s, --sub SUBMISSION_FILE
              File containing the settings to submit the job on a cluster
   Parameters:
    -c, --config, --source CONFIG

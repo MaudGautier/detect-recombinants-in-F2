@@ -13,9 +13,9 @@ Usage
 ```
 Usage: bash ./02_mapping.bash [-s SUBMISSION_FILE] [-t THREADS] -c CONFIG -f1 FASTQ_READ1 -f2 FASTQ_READ2 -o PREFIX_OUTPUT_BAM -g GENOME -b BEDFILE 
   Options:
-   -s SUBMISSION_FILE
+   -s, --sub SUBMISSION_FILE
              File containing the settings to submit the job on a cluster
-   -t THREADS
+   -t, --threads THREADS
              Number of threads
   Parameters:
    -c, --config, --source CONFIG
