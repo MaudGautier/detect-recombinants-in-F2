@@ -34,7 +34,7 @@ do
 			shift
 			;;
 		-ki|--known_indels)
-			known_indels="$2"
+			known_INDELs="$2"
 			shift
 			;;
 		-s|--sub)
@@ -54,7 +54,7 @@ echo INPUT FILE      = "${input_file}"
 echo OUTPUT PREFIX   = "${output_prefix}"
 echo GENOME FASTA	 = "${genome}"
 echo KNOWN SNPS		 = "${known_SNPs}"
-echo KNOWN INDELS	 = "${known_indels}"
+echo KNOWN INDELS	 = "${known_INDELs}"
 echo SUBMISSION FILE = "${sub_file}"
 
 
@@ -109,7 +109,7 @@ java -jar $PICARD/BuildBamIndex.jar \
 java -jar $GATK/GenomeAnalysisTK.jar \
 	-T RealignerTargetCreator \
 	-R ${genome} \
-	-known ${known_indels} \
+	-known ${known_INDELs} \
 	-I ${output_prefix}.addrg_reads.bam \
 	-o ${output_prefix}.target_intervals.list 
 
@@ -117,7 +117,7 @@ java -jar $GATK/GenomeAnalysisTK.jar \
 java -jar $GATK/GenomeAnalysisTK.jar \
 	-T IndelRealigner \
 	-R ${genome} \
-	-known ${known_indels} \
+	-known ${known_INDELs} \
 	-I ${output_prefix}.addrg_reads.bam \
 	-targetIntervals ${output_prefix}.target_intervals.list \
 	-o ${output_prefix}.realigned_reads.bam
@@ -127,7 +127,7 @@ java -jar $GATK/GenomeAnalysisTK.jar \
 	-T BaseRecalibrator \
 	-R ${genome} \
 	-knownSites ${known_SNPs} \
-	-knownSites ${known_indels} \
+	-knownSites ${known_INDELs} \
 	-I ${output_prefix}.realigned_reads.bam \
 	-o ${output_prefix}.recal_data.table
 
@@ -136,7 +136,7 @@ java -jar $GATK/GenomeAnalysisTK.jar \
 	-T BaseRecalibrator \
 	-R ${genome} \
 	-knownSites ${known_SNPs} \
-	-knownSites ${known_indels} \
+	-knownSites ${known_INDELs} \
 	-I ${output_prefix}.realigned_reads.bam \
 	-BQSR ${output_prefix}.recal_data.table \
 	-o ${output_prefix}.post_recal_data.table 
