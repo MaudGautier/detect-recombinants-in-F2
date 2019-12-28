@@ -25,6 +25,23 @@ Installation
 Dependencies
 ------------
 
+Hereunder is the list of dependencies that are necessary for this workflow to function as it is:
+
+* BWA 0.7.17
+* Bedtools v2.26.0
+* Cutadapt 1.15
+* FastQC v0.11.5
+* GATK 3.8
+* GNU awk 4.2.1
+* GNU bash 4.4
+* GNU coreutils 8.30
+* GNU grep 3.1
+* Java 1.8
+* PicardTools 1.98
+* Python 2.7.13
+* Sam2tsv 91b443a14fe47871dc35efdf58c38729fec9d5a9
+* Samtools 1.9
+
 
 Clone the repository
 --------------------
