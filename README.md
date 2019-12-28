@@ -128,15 +128,33 @@ git clone git@github.com:MaudGautier/detect-recombinants-in-F1.git
 Layout of the repository
 ========================
 
-
+tree + indiquer tous les dossiers et ce qu'ils contiennent
+indiquer aussi le tree de l'output
 
 Usage
 =====
 
-The ``config`` folder contains scripts allowing to perform the detection of recombinants.
+The [``src/config`` folder](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) contains scripts allowing to run the detection of recombinants.
 
-``export-paths.bash`` gives the path to the dependencies using the LBBE cluster and the tools I installed in my personal space. 
-If the path exportation to the dependencies have not already been provided in your ``~/.bash_profile`` or ``~/.profile`` file, indicate your own paths in this file and source this file (command: ```source src/config/export-paths.bash```) prior to launching any other configuration file.
+``src/config/export-paths.config`` gives the path to the dependencies using the LBBE cluster and the tools I installed in my personal space. 
+If the path exportation to the dependencies have not already been provided in your ``~/.bash_profile`` or ``~/.profile`` file, indicate your own paths in this file and source this file (command: ``source src/config/export-paths.config``) prior to launching any other configuration file.
+
+``src/config/example-project.config`` is the configuration file of a given project. This file must be adapted to each new project and sourced before running any part of the workflow.
+
+The config files located in the [``src/config`` directory](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) can then be run directly after adapting the parameters to your project.
+If you want to run these processes on a SLURM cluster, you can use the configuration files located in the [``src/config/slurm`` directory](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config/slurm).
+
+
+Once a configuration file ``src/config/file.config`` is configured, it can be run using this command line:
+```bash
+bash src/config/file.config
+```
+or copy-psting its content directly in the terminal.
+
+For instance, to run the FASTQ processing step, use this command line:
+```bash
+bash src/config/01_fastq_processing.config
+```
 
 
 
