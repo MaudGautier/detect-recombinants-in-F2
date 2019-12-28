@@ -1,10 +1,4 @@
 
-Description
-===========
-
-Table of contents
-=================
-
 * [Description](#description)
 * [Table of contents](#table-of-contents)
 * [Installation](#installation)
@@ -17,6 +11,83 @@ Table of contents
 * [Credits](#credits)
 * [Licence](#licence)
 * [Future work](#future-work)
+
+
+Description
+===========
+
+Overview
+--------
+
+The ``detect-recombinants-in-F1`` workflow is a bioinformatic pipeline allowing to detect recombination events from the targeted sequencing of recombination hotspots in single individuals of a F1 cross.
+
+The identification of recombinants *per se* is subdivided into 4 main steps:
+- Step 1: Genotyping all fragments mapped on the first parental genome (Genome 1)
+- Step 2: Extracting all potential recombinants, based on results from Step 1 (Genome 1)
+- Step 3: Genotyping all fragments mapped on the second parental genome (Genome 2)
+- Step 4: Extracting all potential recombinants, based on results from Step 3 (Genome 2)
+- (Optional) Step 5: Re-write recombinant records, using the coordinates from the first parental genome
+
+
+
+Preprocessing
+-------------
+
+The identification of recombinants is based on the genotyping of variants of each sequenced reads. As such, it depends on the identification of variants.
+
+Therefore, prior to running the detection of recombinants, it is necessary to perform mapping and variant-calling.
+
+FASTQ processing (consisting in removing adapters and performing quality check of reads), mapping on the two parental genomes, BAM processing (consisting in filtering out unproper fragments and focusing on regions of interest) and variant-calling (including preprocessing, INDEL local realignment, base quality score recalibration and variant quality score recalibration) are reported in the first four scripts of the [``src/core``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/core) directory: ``01_fastq_processing.bash``, ``02_mapping.bash``, ``03a_variant_calling.bash`` and ``03b_variant_calling.bash``.
+They can be called using the associated configuration files in the [``src/config``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) or [``src/config/slurm``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config/slurm) directories.
+
+More precise documentation on these processes can be found in the [``docs/core`` folder](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core) for [FASTQ processing](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/01_fastq_processing.md), [mapping](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/02_mapping.md) and the [first](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03a_variant_calling.md) and [second](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03b_variant_calling.md) parts of variant-calling.
+
+
+Step 1: Genotyping reads mapped on the first parental genome (Genome 1)
+-----------------------------------------------------------------------
+
+The first step consists in genotyping all reads previously mapped on the first parental genome (Genome 1).
+
+Basically, the list of all variants reported in the variant-calling file (VCF) is intersected with all reads from the input BAM file.
+Each corresponding variant from every read is then annotated as SNP, insertion or deletion. By comparing the allele of each of these variants with the alleles from the two parental genomes, a genotype is attributed to every variant of every read.
+Additionnally, information concerning each variant is reported: the quality of the sequenced base, the VCF filter, the read coverage and the frequency of the reference allele. These can then be used for subsequent filtering.
+
+More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04a_genotype_reads.md).
+
+
+Step 2: Extract all potential recombinants (Genome 1)
+-----------------------------------------------------
+
+Step 2 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 1.
+Concretely, it is a filtering process: variants supported by either a too small read coverage, displaying an allelic frequency deviating too much from a 50:50 ratio, or having a base quality score too low are excluded.
+After the two reads of each fragment are combined together, all the fragments displaying a strict minimum of 2 variants genotyped `Genome 1` and 2 variants genotyped `Genome 2` are marked as `potential recombinants`. 
+Solely these fragments will be considered for the remaining steps.
+
+More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04b_extract_recombinants.md).
+
+
+Step 3: Genotyping reads mapped on the second parental genome (Genome 2)
+------------------------------------------------------------------------
+
+Step 3 consists in re-genotyping all `potential recombinants` obtained after Step 2, using the other parental genome (Genome 2) as a reference.
+The procedure is exactly identical to that of Step 1.
+
+
+Step 4: Extract all definitive recombinants (Genome 2)
+------------------------------------------------------
+
+Step 4 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 3 (i.e. based on the mapping on Genome 2).
+The procedure is exactly identical to that of Step 2.
+
+
+Step 5 (optional): Re-write recombinants with coordinates from the first parental genome
+----------------------------------------------------------------------------------------
+
+After Step 4, the positions of recombinant fragments are reported in the genomic coordinates of Genome 2.
+If necessary for further analyses, Step 5 allows to re-obtain the positions of these fragments in the genomic coordinates of Genome 1.
+
+More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04c_rewrite_recombinants.md).
+
 
 
 Installation
