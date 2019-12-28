@@ -67,6 +67,16 @@ Therefore, as a rough estimate, you would need to ensure that you have a space d
 Alternatively in case the space disk is not sufficient, you can subdivide the ``.bam`` file and run the process on chunks successively.
 
 
+Adaptation to other settings
+----------------------------
+
+The parameters that are given in this pipeline are adapted to the detection of recombination events in 1,018 previously selected for F1 mice resulting from a cross between a B6 and a CAST strain. 
+Though, they could be adapted to the analysis of other biological settings or other choice of hotspots (depending mainly on the divergence between the parental strains, the SNP density of the targeted sequences and the expected recombination rate).
+
+This methodology is adapted to F1 individuals, i.e. individuals for which all targeted regions are in a heterozygous background. 
+Note that this approach was adapted to another setting with F2 individuals for which some of the targeted regions are *not* in a heterozygous background by adding a step consisting in genotyping the genetic background of each region to focus on heterozygous backgrounds exclusively. This implementation is provided in the ``detect-recombinants-in-F2`` repository.
+
+
 Credits
 =======
 
