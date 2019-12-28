@@ -87,16 +87,13 @@ Alternatively in case the space disk is not sufficient, you can subdivide the ``
 Adaptation to other settings
 ----------------------------
 
-The parameters that are given in this pipeline are adapted to the detection of recombination events in 1,018 previously selected for F1 mice resulting from a cross between a B6 and a CAST strain. 
-Though, they could be adapted to the analysis of other biological settings or other choice of hotspots (depending mainly on the divergence between the parental strains, the SNP density of the targeted sequences and the expected recombination rate).
+Originally, this workflow has been implemented to detect recombination events among 250-bp illumina paired-end reads from fragments of 350 bp on average, captured in 1-kb long regions displaying an average of 1 SNP every 150 bp (i.e. a 0.8% divergence) and corresponding to recombination hotspots of a F1 cross between two mouse strains (C57BL/6J hereafter called B6 and CAST/EiJ hereafter called CAST) that present a genome-wide recombination rate of 0.5 cM/Mb. 
 
-This methodology is adapted to F1 individuals, i.e. individuals for which all targeted regions are in a heterozygous background. 
-Note that this approach was adapted to another setting with F2 individuals for which some of the targeted regions are *not* in a heterozygous background by adding a step consisting in genotyping the genetic background of each region to focus on heterozygous backgrounds exclusively. This implementation is provided in the ``detect-recombinants-in-F2`` repository.
+Nonetheless, the pipeline is coded in a way that should allow its use for other designs, provided that the values of the parameters are modified. 
+In particular, the appropriate values for the parameters that matter in steps 2 and 4 (extraction of recombinants by filtering on read depth, allele frequency, base quality score and minimum number of genotyped variants per genome) depend on the sequencing parameters (read length, sequencing error rate, fragment size, …), the variant density in the targeted regions	and the recombination rate of the F1 studied.
 
-
-Credits
-=======
-
+In addition, the workflow in this repository is adapted to F1 individuals, i.e. individuals for which all targeted regions are in a heterozygous background.
+Note that this approach was adapted to another setting with F2 individuals for which some of the targeted regions are *not* in a heterozygous background by adding a step consisting in genotyping the genetic background of each region to focus on heterozygous backgrounds exclusively. This implementation is provided in the ``detect-recombinants-in-F2`` repository available [here](https://github.com/MaudGautier/detect-recombinants-in-F2).
 
 
 Licence
