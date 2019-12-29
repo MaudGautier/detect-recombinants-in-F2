@@ -16,13 +16,12 @@ Usage
 -----
 
 ```
-Usage: bash ./prepare_freq_vcf_file.bash -i INPUT_VCF -o OUTPUT_PREFIX_FREQ_VCF
+Usage: bash ./prepare_freq_vcf_file.bash -i INPUT_VCF -o OUTPUT_FREQ_VCF
   Parameters:
-   -i, --input_file INPUT_BAM
-             Input BAM file (mapped on the same reference genome as that given 
-             in parameter -g)
-   -o, --output_prefix OUTPUT_PREFIX_VCF
-             Prefix of the output VCF file (without the file extension)
+   -i, --input INPUT_VCF
+             Input VCF file
+   -o, --output OUTPUT_FREQ_VCF
+             Output freq_VCF file
 ```
 
 
