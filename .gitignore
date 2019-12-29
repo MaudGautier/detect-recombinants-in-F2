@@ -1,6 +1,4 @@
 .DS_Store
 LICENSE
-docs/core/.*.swp
-src/core/.*.swp
-src/config/.*.swp
-src/config/slurm/.*.swp
+*/*/.*.swp
+*/*/*/.*.swp
