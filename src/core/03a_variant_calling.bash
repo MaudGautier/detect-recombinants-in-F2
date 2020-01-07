@@ -179,7 +179,7 @@ java -Xmx16G -jar $GATK/GenomeAnalysisTK.jar \
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 if [ ! -z $sub_file ] ; then
-	if [ -s ${output_prefix}.raw_variants.g.vcf ] ; then
+	if [ -f ${output_prefix}.raw_variants.g.vcf ] ; then
 		rm -f $sub_file
 	fi
 fi

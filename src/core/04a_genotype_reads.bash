@@ -186,7 +186,7 @@ rm -rf "${tmp_prefix%/*}"
 
 # Delete submission file if everything finished
 if [ ! -z $sub_file ] ; then
-	if [ -s ${output_prefix}.hq_recalibrated_variants.vcf ] ; then
+	if [ -f ${output_prefix}.hq_recalibrated_variants.vcf ] ; then
 		rm -f $sub_file
 	fi
 fi
