@@ -107,13 +107,13 @@ rm -f ${tmp_prefix}.sam
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # 1. Get INDEL sequences and reannotate SNP/INS/DEL
-awk -f $PROJ_SRC_CORE/utils/reannotate_INDELs_in_tsv.awk \
+awk -f $PROJ_SRC/utils/reannotate_INDELs_in_tsv.awk \
 	${tmp_prefix}.tsv \
 	> ${tmp_prefix}.annotated.tsv
 rm -f ${tmp_prefix}.tsv
 
 # 2. Sort the file
-bash $PROJ_SRC_CORE/utils/parallel_sort.bash \
+bash $PROJ_SRC/utils/parallel_sort.bash \
 	${tmp_prefix}.annotated.tsv \
 	${tmp_prefix}.annotated.sorted.tsv \
 	3 \
@@ -172,7 +172,7 @@ join -t $'\t' -1 5 -2 1 -a1 -e "NA" \
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 awk -v REF_GENOME=$ref_name -v ALT_GENOME=$alt_name \
-	-f $PROJ_SRC_CORE/utils/genotype_variants.awk \
+	-f $PROJ_SRC/utils/genotype_variants.awk \
 	${tmp_prefix}.onlyVariantPositions.allFilters.sorted.targets.txt \
 	> ${output_prefix}.Genotyped_ReadsxVariants.txt
 
