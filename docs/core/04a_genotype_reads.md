@@ -57,7 +57,7 @@ Usage: bash ./04a_genotype_reads.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_P
    -r, --ref_name REF_GENOME_NAME
              Name of the genome used as a reference
    -a, --alt_name ALT_GENOME_NAME
-             Name of the genome used as a alternative
+             Name of the genome used as an alternative
 ```
 
 
