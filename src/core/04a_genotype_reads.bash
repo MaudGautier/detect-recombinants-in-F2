@@ -182,7 +182,11 @@ awk -v REF_GENOME=$ref_name -v ALT_GENOME=$alt_name \
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # Delete temporary files
-rm -rf "${tmp_prefix%/*}"
+rm -f ${tmp_prefix}.bam
+rm -f ${tmp_prefix}.annotated.onlyVariantPositions.sorted.txt
+rm -f ${tmp_prefix}.annotated.sorted.tsv
+rm -f ${tmp_prefix}.onlyVariantPositions.allFilters.sorted.targets.txt
+rm -f ${tmp_prefix}.targets.txt
 
 # Delete submission file if everything finished
 if [ ! -z $sub_file ] ; then
