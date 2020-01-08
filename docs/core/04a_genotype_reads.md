@@ -52,7 +52,7 @@ Usage: bash ./04a_genotype_reads.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_P
    -g, --genome GENOME_FASTA
              FASTA file of the genome to map onto. The FASTA file must have 
              been indexed beforehand with bwa index
-   -b, --bed_file BEDFILE
+   -b, --bed_file BED_FILE
              BED file containing a list of intervals
    -r, --ref_name REF_GENOME_NAME
              Name of the genome used as a reference
