@@ -1,4 +1,5 @@
 # README for ``detect-recombinants-in-F1`` repository
+<<<<<<< HEAD
 
 
 * [Description](#description)
@@ -18,9 +19,34 @@
 	 * [Memory requirements](#memory-requirements)
 	 * [Adaptation to other settings](#adaptation-to-other-settings)
 * [Future work](#future-work)
+=======
+
+>>>>>>> fd49eb1194b0feee63fece419359691f82bab2d8
+
+* [README for detect-recombinants-in-F1 repository](#readme-for-detect-recombinants-in-f1-repository)
+	* [Description](#description)
+		 * [Overview](#overview)
+		 * [Preprocessing](#preprocessing)
+		 * [Step 1: Genotyping reads mapped on the first parental genome (Genome 1)](#step-1-genotyping-reads-mapped-on-the-first-parental-genome-genome-1)
+		 * [Step 2: Extract all potential recombinants (Genome 1)](#step-2-extract-all-potential-recombinants-genome-1)
+		 * [Step 3: Genotyping reads mapped on the second parental genome (Genome 2)](#step-3-genotyping-reads-mapped-on-the-second-parental-genome-genome-2)
+		 * [Step 4: Extract all definitive recombinants (Genome 2)](#step-4-extract-all-definitive-recombinants-genome-2)
+		 * [Step 5 (optional): Re-write recombinants with coordinates from the first parental genome](#step-5-optional-re-write-recombinants-with-coordinates-from-the-first-parental-genome)
+	* [Installation](#installation)
+		 * [Dependencies](#dependencies)
+		 * [Clone the repository](#clone-the-repository)
+	* [Layout of the repository](#layout-of-the-repository)
+	* [Usage](#usage)
+	* [Important notes](#important-notes)
+		 * [Memory requirements](#memory-requirements)
+		 * [Adaptation to other settings](#adaptation-to-other-settings)
+	* [Future work](#future-work)
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> fd49eb1194b0feee63fece419359691f82bab2d8
 ## Description
 
 ### Overview
