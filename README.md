@@ -1,23 +1,30 @@
-
-* [Description](#description)
-* [Table of contents](#table-of-contents)
-* [Installation](#installation)
-	* [Dependencies](#dependencies)
-	* [Clone the repository](#clone-the-repository)
-* [Layout of the repository](#layout-of-the-repository)
-* [Usage](#usage)
-* [Important notes](#important-notes)
-	* [Memory requirements](#memory-requirements)
-* [Credits](#credits)
-* [Licence](#licence)
-* [Future work](#future-work)
+# README for ``detect-recombinants-in-F1`` repository
 
 
-Description
-===========
+* [README for detect-recombinants-in-F1 repository](#readme-for-detect-recombinants-in-f1-repository)
+	* [Description](#description)
+		 * [Overview](#overview)
+		 * [Preprocessing](#preprocessing)
+		 * [Step 1: Genotyping reads mapped on the first parental genome (Genome 1)](#step-1-genotyping-reads-mapped-on-the-first-parental-genome-genome-1)
+		 * [Step 2: Extract all potential recombinants (Genome 1)](#step-2-extract-all-potential-recombinants-genome-1)
+		 * [Step 3: Genotyping reads mapped on the second parental genome (Genome 2)](#step-3-genotyping-reads-mapped-on-the-second-parental-genome-genome-2)
+		 * [Step 4: Extract all definitive recombinants (Genome 2)](#step-4-extract-all-definitive-recombinants-genome-2)
+		 * [Step 5 (optional): Re-write recombinants with coordinates from the first parental genome](#step-5-optional-re-write-recombinants-with-coordinates-from-the-first-parental-genome)
+	* [Installation](#installation)
+		 * [Dependencies](#dependencies)
+		 * [Clone the repository](#clone-the-repository)
+	* [Layout of the repository](#layout-of-the-repository)
+	* [Usage](#usage)
+	* [Important notes](#important-notes)
+		 * [Memory requirements](#memory-requirements)
+		 * [Adaptation to other settings](#adaptation-to-other-settings)
+	* [Future work](#future-work)
 
-Overview
---------
+
+
+## Description
+
+### Overview
 
 The ``detect-recombinants-in-F1`` workflow is a bioinformatic pipeline allowing to detect recombination events from the targeted sequencing of recombination hotspots in single individuals of a F1 cross.
 
@@ -30,8 +37,7 @@ The identification of recombinants *per se* is subdivided into 4 main steps:
 
 
 
-Preprocessing
--------------
+### Preprocessing
 
 The identification of recombinants is based on the genotyping of variants of each sequenced reads. As such, it depends on the identification of variants.
 
@@ -43,8 +49,7 @@ They can be called using the associated configuration files in the [``src/config
 More precise documentation on these processes can be found in the [``docs/core`` folder](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core) for [FASTQ processing](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/01_fastq_processing.md), [mapping](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/02_mapping.md) and the [first](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03a_variant_calling.md) and [second](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03b_variant_calling.md) parts of variant-calling.
 
 
-Step 1: Genotyping reads mapped on the first parental genome (Genome 1)
------------------------------------------------------------------------
+### Step 1: Genotyping reads mapped on the first parental genome (Genome 1)
 
 The first step consists in genotyping all reads previously mapped on the first parental genome (Genome 1).
 
@@ -55,8 +60,7 @@ Additionnally, information concerning each variant is reported: the quality of t
 More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04a_genotype_reads.md).
 
 
-Step 2: Extract all potential recombinants (Genome 1)
------------------------------------------------------
+### Step 2: Extract all potential recombinants (Genome 1)
 
 Step 2 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 1.
 Concretely, it is a filtering process: variants supported by either a too small read coverage, displaying an allelic frequency deviating too much from a 50:50 ratio, or having a base quality score too low are excluded.
@@ -66,22 +70,19 @@ Solely these fragments will be considered for the remaining steps.
 More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04b_extract_recombinants.md).
 
 
-Step 3: Genotyping reads mapped on the second parental genome (Genome 2)
-------------------------------------------------------------------------
+### Step 3: Genotyping reads mapped on the second parental genome (Genome 2)
 
 Step 3 consists in re-genotyping all `potential recombinants` obtained after Step 2, using the other parental genome (Genome 2) as a reference.
 The procedure is exactly identical to that of Step 1.
 
 
-Step 4: Extract all definitive recombinants (Genome 2)
-------------------------------------------------------
+### Step 4: Extract all definitive recombinants (Genome 2)
 
 Step 4 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 3 (i.e. based on the mapping on Genome 2).
 The procedure is exactly identical to that of Step 2.
 
 
-Step 5 (optional): Re-write recombinants with coordinates from the first parental genome
-----------------------------------------------------------------------------------------
+### Step 5 (optional): Re-write recombinants with coordinates from the first parental genome
 
 After Step 4, the positions of recombinant fragments are reported in the genomic coordinates of Genome 2.
 If necessary for further analyses, Step 5 allows to re-obtain the positions of these fragments in the genomic coordinates of Genome 1.
@@ -90,11 +91,9 @@ More precise documentation on this process can be found [here](https://github.co
 
 
 
-Installation
-============
+## Installation
 
-Dependencies
-------------
+### Dependencies
 
 Hereunder is the list of dependencies that are necessary for this workflow to function as it is:
 
@@ -114,8 +113,7 @@ Hereunder is the list of dependencies that are necessary for this workflow to fu
 * Samtools 1.9
 
 
-Clone the repository
---------------------
+### Clone the repository
 
 To clone the repository, use this command line:
 
@@ -125,14 +123,68 @@ git clone git@github.com:MaudGautier/detect-recombinants-in-F1.git
 
 
 
-Layout of the repository
-========================
+## Layout of the repository
 
-tree + indiquer tous les dossiers et ce qu'ils contiennent
-indiquer aussi le tree de l'output
+```
+.
+├── LICENSE
+├── README.md
+├── TODO.md
+├── docs
+│   ├── core
+│   │   ├── 01_fastq_processing.md
+│   │   ├── 02_mapping.md
+│   │   ├── 03a_variant_calling.md
+│   │   ├── 03b_variant_calling.md
+│   │   ├── 04a_genotype_reads.md
+│   │   └── 04b_extract_recombinants.md
+│   └── utils
+│       ├── filter_genotypes.md
+│       ├── genotype_variants.md
+│       ├── modify_weight_of_overlaps.md
+│       ├── parallel_sort.md
+│       ├── prepare_freq_vcf_file.md
+│       ├── prepare_paired_bed.md
+│       ├── reannotate_INDELs_in_tsv.md
+│       └── reconstitute_fragments.md
+└── src
+    ├── config
+    │   ├── 01_fastq_processing.config
+    │   ├── 02_mapping.config
+    │   ├── 03a_variant_calling.config
+    │   ├── 03b_variant_calling.config
+    │   ├── 04a_genotype_reads.config
+    │   ├── 04b_extract_recombinants.config
+    │   ├── 04c_pass_second_genome.config
+    │   ├── example-project.config
+    │   ├── export-paths.config
+    │   └── slurm
+    │       ├── 01_fastq_processing.config
+    │       ├── 02_mapping.config
+    │       ├── 03a_variant_calling.config
+    │       ├── 03b_variant_calling.config
+    │       ├── 04a_genotype_reads.config
+    │       ├── 04b_extract_recombinants.config
+    │       └── 04c_pass_second_genome.config
+    ├── core
+    │   ├── 01_fastq_processing.bash
+    │   ├── 02_mapping.bash
+    │   ├── 03a_variant_calling.bash
+    │   ├── 03b_variant_calling.bash
+    │   ├── 04a_genotype_reads.bash
+    │   └── 04b_extract_recombinants.bash
+    └── utils
+        ├── filter_genotypes.awk
+        ├── genotype_variants.awk
+        ├── modify_weight_of_overlaps.py
+        ├── parallel_sort.bash
+        ├── prepare_freq_vcf_file.bash
+        ├── prepare_paired_bed.bash
+        ├── reannotate_INDELs_in_tsv.awk
+        └── reconstitute_fragments.awk
+```
 
-Usage
-=====
+## Usage
 
 The [``src/config`` folder](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) contains scripts allowing to run the detection of recombinants.
 
@@ -158,11 +210,9 @@ bash src/config/01_fastq_processing.config
 
 
 
-Important notes
-===============
+## Important notes
 
-Memory requirements
--------------------
+### Memory requirements
 
 The genotyping step requires the creation of temporary ``.tsv`` files (from the [sam2tsv](http://lindenb.github.io/jvarkit/Sam2Tsv.html) tool of the [jvarkit](http://lindenb.github.io/jvarkit/) utility). 
 
@@ -173,8 +223,7 @@ Therefore, as a rough estimate, you would need to ensure that you have a space d
 Alternatively in case the space disk is not sufficient, you can subdivide the ``.bam`` file and run the process on chunks successively.
 
 
-Adaptation to other settings
-----------------------------
+### Adaptation to other settings
 
 Originally, this workflow has been implemented to detect recombination events among 250-bp illumina paired-end reads from fragments of 350 bp on average, captured in 1-kb long regions displaying an average of 1 SNP every 150 bp (i.e. a 0.8% divergence) and corresponding to recombination hotspots of a F1 cross between two mouse strains (C57BL/6J hereafter called B6 and CAST/EiJ hereafter called CAST) that present a genome-wide recombination rate of 0.5 cM/Mb. 
 
@@ -185,17 +234,7 @@ In addition, the workflow in this repository is adapted to F1 individuals, i.e. 
 Note that this approach was adapted to another setting with F2 individuals for which some of the targeted regions are *not* in a heterozygous background by adding a step consisting in genotyping the genetic background of each region to focus on heterozygous backgrounds exclusively. This implementation is provided in the ``detect-recombinants-in-F2`` repository available [here](https://github.com/MaudGautier/detect-recombinants-in-F2).
 
 
-Licence
-=======
-
-
-Future work
-===========
+## Future work
 
 * Improve the memore requirement limitations by avoiding generating a temporary ``.tsv`` file. Instead, process the ``.bam`` file directly, ideally using Java, given the size of the files to be processed.
-
-
-
-
-
 
