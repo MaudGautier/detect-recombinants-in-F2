@@ -1,4 +1,4 @@
-README for ``04a_genotype_reads.bash``
+README for ``05a_genotype_reads.bash``
 ======================================
 
 Description
@@ -24,14 +24,14 @@ Helpful notes
 
 On TSV files, alignments are reported vertically, i.e. one line corresponds to one nucleotide sequenced. For further information about this file format, refer to [the ``sam2tsv`` tool documentation page](http://lindenb.github.io/jvarkit/Sam2Tsv.html).
 
-The output file contains information on which filters will be set in the ``04b_extract_recombinants.bash`` script. In particular, the filters on the quality score of variants are reported in the ``QUAL`` column. As such, performing this process on a BAM file for which base quality scores have been recalibrated with the BQRS step of GATK will allow to filter on more accurate base quality scores. I thus recommended to use the ``recal_reads.bam`` as the input BAM file for this script.
+The output file contains information on which filters will be set in the ``05b_extract_recombinants.bash`` script. In particular, the filters on the quality score of variants are reported in the ``QUAL`` column. As such, performing this process on a BAM file for which base quality scores have been recalibrated with the BQRS step of GATK will allow to filter on more accurate base quality scores. I thus recommended to use the ``recal_reads.bam`` as the input BAM file for this script.
 
 
 Usage
 -----
 
 ```
-Usage: bash ./04a_genotype_reads.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_PREFIX -t TMP_PREFIX -i INPUT_BAM -f FREQ_VCF_FILE -b BED_FILE -g GENOME_FASTA -r REF_GENOME_NAME -a ALT_GENOME_NAME 
+Usage: bash ./05a_genotype_reads.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_PREFIX -t TMP_PREFIX -i INPUT_BAM -f FREQ_VCF_FILE -b BED_FILE -g GENOME_FASTA -r REF_GENOME_NAME -a ALT_GENOME_NAME 
   Options:
    -s, --sub SUBMISSION_FILE
              File containing the settings to submit the job on a cluster

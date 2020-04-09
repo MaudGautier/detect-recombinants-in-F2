@@ -1,4 +1,4 @@
-README for ``04b_extract_recombinants.bash``
+README for ``05b_extract_recombinants.bash``
 ============================================
 
 Description
@@ -29,7 +29,7 @@ Usage
 -----
 
 ```
-Usage: bash ./04b_extract_recombinants.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_PREFIX -i INPUT_FILE -b PAIRED_BEDFILE -d FILT_DEPTH -f FILT_FREQ -q FILT_QUAL -a FILT_ALLELES -n FILT_NAME 
+Usage: bash ./05b_extract_recombinants.bash [-s SUBMISSION_FILE] -c CONFIG -o OUTPUT_PREFIX -i INPUT_FILE -b PAIRED_BEDFILE -d FILT_DEPTH -f FILT_FREQ -q FILT_QUAL -a FILT_ALLELES -n FILT_NAME 
   Options:
    -s, --sub SUBMISSION_FILE
              File containing the settings to submit the job on a cluster
@@ -40,7 +40,7 @@ Usage: bash ./04b_extract_recombinants.bash [-s SUBMISSION_FILE] -c CONFIG -o OU
              Prefix of the output file (without the file extension)
    -i, --input_file INPUT_FILE
              Input file (must have been created thanks to the script 
-             04a_genotype_reads.bash)
+             05a_genotype_reads.bash)
    -b, --bed_file PAIRED_BEDFILE
              Paired BED file containing the list of start and stop of each 
              fragment (not of reads). Must have been created with the script 
