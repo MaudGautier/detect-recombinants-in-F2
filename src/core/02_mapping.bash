@@ -148,7 +148,7 @@ intersectBed -abam ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 if [ ! -z $sub_file  ] ; then
-	if [ -f ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.bam ] ; then
+	if [ -s ${output_prefix}.sorted.markedDup.only_mapped_fragments.only_primary.bam ] ; then
 		rm -f $sub_file
 	fi
 fi

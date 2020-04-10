@@ -90,7 +90,7 @@ fastqc -o $fastqc_dir \
 
 if [ ! -z $sub_file ] ; then
 	name="${fastq_no_adapter_prefix##*/}"
-	if [ -f ${fastqc_dir}/${name}-R2.no_adapter_fastqc.html ] ; then
+	if [ -s ${fastqc_dir}/${name}-R2.no_adapter_fastqc.html ] ; then
 		rm -f $sub_file
 	fi
 fi

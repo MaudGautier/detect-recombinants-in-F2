@@ -173,7 +173,7 @@ gzip -f ${output_prefix}.${FILT_NAME}.Recombinants.Min_allele_${FILT_MIN_ALLELES
 
 # Delete submission file if everything finished
 if [ ! -z $sub_file ] ; then
-	if [ -f ${output_prefix}.${FILT_NAME}.Recombinants.Min_allele_${FILT_MIN_ALLELES}.txt ] ; then
+	if [ -s ${output_prefix}.${FILT_NAME}.Recombinants.Min_allele_${FILT_MIN_ALLELES}.txt ] ; then
 		rm -f $sub_file
 	fi
 fi
