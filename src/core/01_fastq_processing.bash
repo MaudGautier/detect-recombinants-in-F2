@@ -72,6 +72,9 @@ cutadapt -a ${adapter} \
 ####                         CHECK FASTQC QUALITY                          ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
+# Create directory if not existant
+if [ ! -d $fastqc_dir  ] ; then mkdir -p $fastqc_dir ; fi
+
 # For reads 1 (first paired-end file)
 fastqc -o $fastqc_dir \
 	${fastq_no_adapter_prefix}'-R1.no_adapter.fastq.gz'
