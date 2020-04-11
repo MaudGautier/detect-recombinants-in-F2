@@ -34,6 +34,26 @@ do
 			vcf_file="$2"
 			shift
 			;;
+		--PG1|--pg1)
+			PG1="$2"
+			shift
+			;;
+		--PG2|--pg2)
+			PG2="$2"
+			shift
+			;;
+		--PG2_introgressed|--pg2_introgressed|--PG2_intro)
+			PG2_introgressed="$2"
+			shift
+			;;
+		--PG2_main|--pg2_main)
+			PG2_main="$2"
+			shift
+			;;
+		-r|--refine|--refine_file)
+			refine_file="${2}"
+			shift
+			;;
 		-s|--sub)
 			sub_file="$2"
 			shift
@@ -52,6 +72,11 @@ echo ORIGIN SNPS     = "${output_origin_SNPs}"
 echo VCF FILE        = "${vcf_file}"
 echo BED FILE        = "${bed_intervals}"
 echo TMP DIR         = "${tmp_dir}"
+echo PG1             = "${PG1}"
+echo PG2             = "${PG2}"
+echo PG2_MAIN        = "${PG2_main}"
+echo PG2_INTROGRESSED= "${PG2_introgressed}"
+echo REFINE FILE     = "${refine_file}"
 echo SUBMISSION FILE = "${sub_file}"
 
 # Create tmp directory
@@ -82,7 +107,8 @@ echo -e "#HOTSPOT\tCHR\tPOS\tREF\tALT\tORIGIN"> $output_origin_SNPs
 # Write output files for each hotspot
 #TODO: modifier en while read chr start stop hotspot
 list_hotspots=(`cut -f4 $bed_intervals`)
-for hotspot in ${list_hotspots[@]} ; do 
+echo -e "Genotyping all hotspots..."
+for hotspot in ${list_hotspots[@]} ; do
 
 	# Prepare hotspot
 	grep $hotspot $bed_intervals > $tmp_dir/${hotspot}.bed
@@ -166,7 +192,7 @@ rm -rf $tmp_dir
 
 # Delete submission file if everything finished
 if [ ! -z $sub_file ] ; then
-	if [ -s ${output_prefix}.hq_recalibrated_variants.vcf ] ; then
+	if [ -s $output_genotype_hotspots ] ; then
 		rm -f $sub_file
 	fi
 fi
