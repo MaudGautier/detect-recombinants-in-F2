@@ -32,10 +32,14 @@ def create_parser():
             help="""The path to the output_file of hotspot genotypes.""")
     requiredNamed.add_argument('-l', '--output_origin_SNPs', default="NA",
             dest='output_origin_SNPs', metavar='output_origin_SNPs', type=str,
-            help="""The path to the output_file of SNP origins.""")
+            help="""The path to the (optional) output_file of SNP origins.""")
     requiredNamed.add_argument('-f', '--filter_coverage', required=True,
             dest='filter_coverage', metavar='filter_coverage', type=float,
             help="""The minimum read depth for a SNP to be retained.""")
+    requiredNamed.add_argument('-p', '--perc_genot', default = 0.90,
+            dest='perc_genot', metavar='perc_genot', type=float,
+            help="""The minimum percentage of SNPs in one hotspot that 
+            should have the same genotype to infer that of the hotspot.""")
     requiredNamed.add_argument('-n', '--name_hotspot', dest='name_hotspot',
             metavar='name_hotspot', type=str, required=True,
             help="""Name of the hotspot.""")
@@ -172,7 +176,7 @@ if __name__ == '__main__':
     PG2 = args.PG2
     PG2_main = args.PG2_main
     PG2_intro = args.PG2_introgressed
-
+    min_perc_genot = args.perc_genot
 
     # 1. Count SNPs genotyped PG1/PG2 and PG2_main/PG2_intro
     # 1.a. Initialise dictionaries of counts
@@ -209,7 +213,7 @@ if __name__ == '__main__':
                             fields[0] + sep + fields[1] + sep + fields[3] + sep + \
                             fields[4] + sep + marker_origin + "\n")
 
-            # Prepare for step 3.
+            # 2. Genotype remaining SNPs
             # Exclude insertions and deletions 
             if len(fields[3]) > 1 or len(fields[4]) > 1:
                 continue
@@ -227,7 +231,7 @@ if __name__ == '__main__':
     # 3. Genotype hotspot
     hotspot_genot = {}
     for sample in samples:
-        hotspot_genot[sample] = genotype_hotspot(sample_dict_PG1_PG2[sample], sample_dict_MAIN_INTRO[sample], PG1, PG2)
+        hotspot_genot[sample] = genotype_hotspot(sample_dict_PG1_PG2[sample], sample_dict_MAIN_INTRO[sample], PG1, PG2, min_perc_genot = min_perc_genot)
 
     # Write output list of hotspot genotypes
     with open(output_file_genotypes_hotspots, 'a') as filout:
