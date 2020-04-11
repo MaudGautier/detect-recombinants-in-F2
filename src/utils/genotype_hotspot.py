@@ -95,16 +95,11 @@ def genotype_hotspot(dict_PG1_PG2, dict_MAIN_INTRO, PG1, PG2, min_perc_genot = 0
     if nb_SNPs ==0:
         return "NOCOV"
     if dict_PG1_PG2["0/1"]/nb_SNPs >= min_perc_genot:
-        return str(PG2) + "/" + str(PG1)
+        return "HET"
     if dict_PG1_PG2["1/1"]/nb_SNPs >= min_perc_genot:
-        return str(PG2) + "/" + str(PG2)
+        return str(PG2)
     return "NA"
    
-
-
-def return_counts_alleles(sample_dict_genots, sep=":"):
-    return str(sample_dict_genots["0/0"]) + sep + str(sample_dict_genots["0/1"]) + sep + str(sample_dict_genots["1/1"])
-
 
 
 def detect_0_0_genotype(list_VCF_genot):
@@ -230,21 +225,16 @@ if __name__ == '__main__':
                             VCF_fields[sample], filter_coverage)
 
     # 3. Genotype hotspot
-    samples_genot = {}
-    samples_count_PG1_PG2 = {}
-    samples_count_MAIN_INTRO = {}
+    hotspot_genot = {}
     for sample in samples:
-        samples_genot[sample] = genotype_hotspot(sample_dict_PG1_PG2[sample], sample_dict_MAIN_INTRO[sample], PG1, PG2)
-        # Optional
-        samples_count_PG1_PG2[sample] = return_counts_alleles(sample_dict_PG1_PG2[sample])
-        samples_count_MAIN_INTRO[sample] = return_counts_alleles(sample_dict_MAIN_INTRO[sample])
+        hotspot_genot[sample] = genotype_hotspot(sample_dict_PG1_PG2[sample], sample_dict_MAIN_INTRO[sample], PG1, PG2)
 
-    # Optional
+    # Write output list of hotspot genotypes
     with open(output_file_genotypes_hotspots, 'a') as filout:
-        lineout=hotspot_name
+        lineout = hotspot_name + "\t"
+        sep_fields="-"
         for sample in samples:
-            lineout += sep + samples_genot[sample] + sep + samples_count_PG1_PG2[sample] + "/" + samples_count_MAIN_INTRO[sample]
-        lineout += "\n"
+            lineout += hotspot_genot[sample] + sep_fields
+        lineout = lineout[:-1] + "\n"
         filout.write(lineout)
- 
 
