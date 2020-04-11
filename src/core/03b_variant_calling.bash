@@ -35,11 +35,11 @@ do
 			shift
 			;;
 		-ti|--true_indels)
-			true_indels="$2"
+			true_INDELs="$2"
 			shift
 			;;
 		-ui|--untrue_indels)
-			untrue_indels="$2"
+			untrue_INDELs="$2"
 			shift
 			;;
 		-s|--sub)
@@ -62,8 +62,8 @@ echo OUTPUT PREFIX   = "${output_prefix}"
 echo GENOME FASTA	 = "${genome}"
 echo TRUE SNPS		 = "${true_SNPs}"
 echo UNTRUE SNPS	 = "${untrue_SNPs}"
-echo TRUE INDELS	 = "${true_indels}"
-echo UNTRUE INDELS	 = "${untrue_indels}"
+echo TRUE INDELS	 = "${true_INDELs}"
+echo UNTRUE INDELS	 = "${untrue_INDELs}"
 echo SUBMISSION FILE = "${sub_file}"
 echo ARRAY GVCF:
 for i in "${array_gvcf[@]}" ; do
