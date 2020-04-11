@@ -190,7 +190,7 @@ rm -f ${tmp_prefix}.targets.txt
 
 # Delete submission file if everything finished
 if [ ! -z $sub_file ] ; then
-	if [ -s ${output_prefix}.hq_recalibrated_variants.vcf ] ; then
+	if [ -s ${output_prefix}.Genotyped_ReadsxVariants.txt ] ; then
 		rm -f $sub_file
 	fi
 fi
