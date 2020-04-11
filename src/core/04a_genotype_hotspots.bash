@@ -117,70 +117,28 @@ for hotspot in ${list_hotspots[@]} ; do
 	# Write line of hotspot
 	samples=`grep -v "##" $vcf_file|head -n1|cut -f10-|sed 's/\t/,/g'`
 	python $PROJ_SRC/utils/genotype_hotspot.py \
- #$SRC/0_Routine_Scripts/Python/genotype_hotspot_by_SNPs_not_genot_DB_GENERALISED.py \
 		-s $samples \
-		-i $tmp_dir/${hotspot}.vcf \
+		-v $tmp_dir/${hotspot}.vcf \
 		-f 500 \
 		-o $output_genotype_hotspots \
 		-n ${hotspot} \
-		-l $output_origin_SNPs
+		--PG1 $PG1 --PG2 $PG2 --PG2_main $PG2_main \
+		--PG2_introgressed $PG2_introgressed
 done
 
 
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-####                          GENOTYPE HOTSPOTS                            ####
+####                       OPTIONAL: REFINE GENOTYPES                      ####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-## OPTION: refine si on le souhaite OPTION --refine
-
-
-# (TODO: MODIFIER DE FACON A N'AVOIR QUE LE BON FORMAT) Transform file in good format
-file_genotype_by_hotspot=$HOTSPOT_GENOT/Main_genotype_by_hotspot.txt
-file_list_origin_markers=$HOTSPOT_GENOT/List_origin_SNPs.txt
-
-# Transformer le fichier dans le meme format que precedemment
-file_genotype_by_hotspot_good_format=$HOTSPOT_GENOT/Main_genotype_by_hotspot_good_format.txt
-awk -v OFS="\t" '
-NR==1 {print "NA", "NA", "NA", $1}
-NR >1 { 
-if ($2=="B6/CA") { $2 = "HET" } else if ($2=="B6/B6") { $2 = "B6" }
-if ($4=="B6/CA") { $4 = "HET" } else if ($4=="B6/B6") { $4 = "B6" }
-if ($6=="B6/CA") { $6 = "HET" } else if ($6=="B6/B6") { $6 = "B6" }
-if ($8=="B6/CA") { $8 = "HET" } else if ($8=="B6/B6") { $8 = "B6" }
-if ($10=="B6/CA") { $10 = "HET" } else if ($10=="B6/B6") { $10 = "B6" }
-if ($12=="B6/CA") { $12 = "HET" } else if ($12=="B6/B6") { $12 = "B6" }
-if ($14=="B6/CA") { $14 = "HET" } else if ($14=="B6/B6") { $14 = "B6" }
-if ($16=="B6/CA") { $16 = "HET" } else if ($16=="B6/B6") { $16 = "B6" }
-
-	print $1, "NA", "NA", $2"-"$4"-"$6"-"$8"-"$10"-"$12"-"$14"-"$16
- }
-' $file_genotype_by_hotspot > $file_genotype_by_hotspot_good_format
-
-
-# Optional: Refine hotspot genotype with surroundings ## DE PLUS (NOUVEAU PAR RAPPORT A SCRIPT D'AVANT QUE J'AI COPIE COLLE) — REFINE LES GENOTYPE DES HOTSPOTS SI NA
-python $SRC/0_Routine_Scripts/Python/refine_hotspot_genotype_with_surroundings_for_8_samples.py -i $file_genotype_by_hotspot -n 5 -o ${file_genotype_by_hotspot/.txt/.refined_with_surroundings.txt}
-# Transformer en bon format
-file_genotype_by_hotspot_REFINED_good_format=$HOTSPOT_GENOT/Main_genotype_by_hotspot.refined_with_surroundings_good_format.txt
-awk -v OFS="\t" '
-NR==1 {print "NA", "NA", "NA", $1}
-NR >1 { 
-if ($2=="B6/CA") { $2 = "HET" } else if ($2=="B6/B6") { $2 = "B6" }
-if ($4=="B6/CA") { $4 = "HET" } else if ($4=="B6/B6") { $4 = "B6" }
-if ($6=="B6/CA") { $6 = "HET" } else if ($6=="B6/B6") { $6 = "B6" }
-if ($8=="B6/CA") { $8 = "HET" } else if ($8=="B6/B6") { $8 = "B6" }
-if ($10=="B6/CA") { $10 = "HET" } else if ($10=="B6/B6") { $10 = "B6" }
-if ($12=="B6/CA") { $12 = "HET" } else if ($12=="B6/B6") { $12 = "B6" }
-if ($14=="B6/CA") { $14 = "HET" } else if ($14=="B6/B6") { $14 = "B6" }
-if ($16=="B6/CA") { $16 = "HET" } else if ($16=="B6/B6") { $16 = "B6" }
-
-	print $1, "NA", "NA", $2"-"$4"-"$6"-"$8"-"$10"-"$12"-"$14"-"$16
- }
-' ${file_genotype_by_hotspot/.txt/.refined_with_surroundings.txt} > ${file_genotype_by_hotspot_REFINED_good_format}
-
-
-
+# TODO: REWORK AND ADD SCRIPT REFINEMENT
+if [ ! -z $refine_file ] ; then
+	echo -e "Performing refinement..."
+   #  python $SRC/0_Routine_Scripts/Python/refine_hotspot_genotype_with_surroundings_for_8_samples.py \
+		# -i $file_genotype_by_hotspot \
+		# -n 5 \
+		# -o $refine_file
+fi
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
