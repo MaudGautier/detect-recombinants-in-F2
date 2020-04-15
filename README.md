@@ -10,76 +10,41 @@
 * [Usage](#usage)
 * [Important notes](#important-notes)
 	 * [Memory requirements](#memory-requirements)
-	 * [Adaptation to other settings](#adaptation-to-other-settings)
-* [Future work](#future-work)
 
 
 ## Description
 
+The ``detect-recombinants-in-F2`` workflow is a bioinformatic pipeline allowing to detect recombination events from the targeted sequencing of recombination hotspots in single individuals of a F2 cross.
+
+This workflow is designed in a similar fashion as [that to detect recombination events in single individuals of F1 crosses](https://github.com/MaudGautier/detect-recombinants-in-F1), but required adaptations that are described hereunder.
+
+
+## Specificities for F2 individuals
+
+F2 individuals arise from the cross between two parents, one of which consisting of 100% of parental genome 1 (CAST) and the other being majoritarily made of parental genome 2 (B6) with a (small) fraction of an introgressed genome (DBA2).
+
+Since the reference genomes are known for B6 and CAST but not for DBA2 (and thus, that reads were mapped on both the B6 and CAST but not on the DBA2 genome), it is necessary to create an approach to genotype hotspots.
+Otherwise, markers that come from the introgressed genome (DBA2) will be mistakenly genotyped as the alternative genome ([when genotyping reads](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/05a_genotype_reads.md)), no matter if the reads are mapped on the CAST or on the B6 genome. This will lead to errors in the genotyping of reads and thus, to many false positives when calling recombinants.
+
+To avoid these errors, our approach consisted in identifying the genetic background of all hotspots prior to genotyping reads.
+The practical implementation of hotspot genotyping is fully described in [this document](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/utils/genotype_hotspot.md)
+
+The genotype of hotspots is then used to 1) focus exclusively on hotspots that are heteroygous for the sample and 2) select variants that correspond to DOM/CAST variants (excluding the B6/DBA2 variants which are irrelevant for the identification of recombination events in the F2 cross between DOM and CAST).
+
+
+
+
+
 ### Overview
 
-The ``detect-recombinants-in-F1`` workflow is a bioinformatic pipeline allowing to detect recombination events from the targeted sequencing of recombination hotspots in single individuals of a F1 cross.
+All in all thus, the workflow includes all of these steps:
 
-The identification of recombinants *per se* is subdivided into 4 main steps:
-- Step 1: Genotyping all fragments mapped on the first parental genome (Genome 1)
-- Step 2: Extracting all potential recombinants, based on results from Step 1 (Genome 1)
-- Step 3: Genotyping all fragments mapped on the second parental genome (Genome 2)
-- Step 4: Extracting all potential recombinants, based on results from Step 3 (Genome 2)
-- (Optional) Step 5: Re-write recombinant records, using the coordinates from the first parental genome
-
-
-
-### Preprocessing
-
-The identification of recombinants is based on the genotyping of variants of each sequenced reads. As such, it depends on the identification of variants.
-
-Therefore, prior to running the detection of recombinants, it is necessary to perform mapping and variant-calling.
-
-FASTQ processing (consisting in removing adapters and performing quality check of reads), mapping on the two parental genomes, BAM processing (consisting in filtering out unproper fragments and focusing on regions of interest) and variant-calling (including preprocessing, INDEL local realignment, base quality score recalibration and variant quality score recalibration) are reported in the first four scripts of the [``src/core``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/core) directory: ``01_fastq_processing.bash``, ``02_mapping.bash``, ``03a_variant_calling.bash`` and ``03b_variant_calling.bash``.
-They can be called using the associated configuration files in the [``src/config``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) or [``src/config/slurm``](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config/slurm) directories.
-
-More precise documentation on these processes can be found in the [``docs/core`` folder](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core) for [FASTQ processing](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/01_fastq_processing.md), [mapping](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/02_mapping.md) and the [first](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03a_variant_calling.md) and [second](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/03b_variant_calling.md) parts of variant-calling.
-
-
-### Step 1: Genotyping reads mapped on the first parental genome (Genome 1)
-
-The first step consists in genotyping all reads previously mapped on the first parental genome (Genome 1).
-
-Basically, the list of all variants reported in the variant-calling file (VCF) is intersected with all reads from the input BAM file.
-Each corresponding variant from every read is then annotated as SNP, insertion or deletion. By comparing the allele of each of these variants with the alleles from the two parental genomes, a genotype is attributed to every variant of every read.
-Additionnally, information concerning each variant is reported: the quality of the sequenced base, the VCF filter, the read coverage and the frequency of the reference allele. These can then be used for subsequent filtering.
-
-More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04a_genotype_reads.md).
-
-
-### Step 2: Extract all potential recombinants (Genome 1)
-
-Step 2 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 1.
-Concretely, it is a filtering process: variants supported by either a too small read coverage, displaying an allelic frequency deviating too much from a 50:50 ratio, or having a base quality score too low are excluded.
-After the two reads of each fragment are combined together, all the fragments displaying a strict minimum of 2 variants genotyped `Genome 1` and 2 variants genotyped `Genome 2` are marked as `potential recombinants`. 
-Solely these fragments will be considered for the remaining steps.
-
-More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04b_extract_recombinants.md).
-
-
-### Step 3: Genotyping reads mapped on the second parental genome (Genome 2)
-
-Step 3 consists in re-genotyping all `potential recombinants` obtained after Step 2, using the other parental genome (Genome 2) as a reference.
-The procedure is exactly identical to that of Step 1.
-
-
-### Step 4: Extract all definitive recombinants (Genome 2)
-
-Step 4 consists in extracting recombinant fragments from the list of genotyped reads obtained in Step 3 (i.e. based on the mapping on Genome 2).
-The procedure is exactly identical to that of Step 2.
-
-
-### Step 5 (optional): Re-write recombinants with coordinates from the first parental genome
-
-After Step 4, the positions of recombinant fragments are reported in the genomic coordinates of Genome 2.
-If necessary for further analyses, Step 5 allows to re-obtain the positions of these fragments in the genomic coordinates of Genome 1.
-
-More precise documentation on this process can be found [here](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/docs/core/04c_rewrite_recombinants.md).
+1. Process `FASTQ` files to remove sequencing adapters ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/01_fastq_processing.md))
+2. Map reads to the two reference genomes ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/02_mapping.md))
+3.a. Identify variants in all samples ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03a_variant_calling.md))
+3.b. Merge variant-calling information from all samples and perform variant quality score recalibration ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03b_variant_calling.md))
+4. Genotype hotspots ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/04a_genotype_hotspots.md))
+5. Genotype reads ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05a_genotype_reads.md)) and extract recombination events ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05b_extract_recombinants.md))
 
 
 
