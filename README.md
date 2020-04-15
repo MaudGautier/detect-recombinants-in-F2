@@ -1,4 +1,4 @@
-# README for ``detect-recombinants-in-F1`` repository
+# README for ``detect-recombinants-in-F2`` repository
 
 * [Description](#description)
 	 * [Overview](#overview)
@@ -115,7 +115,7 @@ Hereunder is the list of dependencies that are necessary for this workflow to fu
 To clone the repository, use this command line:
 
 ```
-git clone git@github.com:MaudGautier/detect-recombinants-in-F1.git
+git clone https://github.com/MaudGautier/detect-recombinants-in-F2.git
 ```
 
 
@@ -153,7 +153,7 @@ git clone git@github.com:MaudGautier/detect-recombinants-in-F1.git
     │   ├── 04a_genotype_reads.config
     │   ├── 04b_extract_recombinants.config
     │   ├── 04c_pass_second_genome.config
-    │   ├── example-project.config
+    │   ├── example-project-F2.config
     │   ├── export-paths.config
     │   └── slurm
     │       ├── 01_fastq_processing.config
@@ -188,7 +188,7 @@ The [``src/config`` folder](https://github.com/MaudGautier/detect-recombinants-i
 ``src/config/export-paths.config`` gives the path to the dependencies using the LBBE cluster and the tools I installed in my personal space. 
 If the path exportation to the dependencies have not already been provided in your ``~/.bash_profile`` or ``~/.profile`` file, indicate your own paths in this file and source this file (command: ``source src/config/export-paths.config``) prior to launching any other configuration file.
 
-``src/config/example-project.config`` is the configuration file of a given project. This file must be adapted to each new project and sourced before running any part of the workflow.
+``src/config/example-project-F2.config`` is the configuration file of a given project. This file must be adapted to each new project and sourced before running any part of the workflow.
 
 The config files located in the [``src/config`` directory](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config) can then be run directly after adapting the parameters to your project.
 If you want to run these processes on a SLURM cluster, you can use the configuration files located in the [``src/config/slurm`` directory](https://github.com/MaudGautier/detect-recombinants-in-F1/tree/master/src/config/slurm).
