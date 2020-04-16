@@ -39,12 +39,13 @@ The genotype of hotspots is then used to 1) focus exclusively on hotspots that a
 
 All in all thus, the workflow includes all of these steps:
 
-1. Process `FASTQ` files to remove sequencing adapters ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/01_fastq_processing.md))
-2. Map reads to the two reference genomes ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/02_mapping.md))
-3.a. Identify variants in all samples ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03a_variant_calling.md))
-3.b. Merge variant-calling information from all samples and perform variant quality score recalibration ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03b_variant_calling.md))
-4. Genotype hotspots ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/04a_genotype_hotspots.md))
-5. Genotype reads ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05a_genotype_reads.md)) and extract recombination events ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05b_extract_recombinants.md))
+1. Process `FASTQ` files to remove sequencing adapters ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/01_fastq_processing.md)) <br/>
+2. Map reads to the two reference genomes ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/02_mapping.md)) <br/>
+3. Joint variant-calling <br/>
+3.a. Identify variants in all samples ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03a_variant_calling.md)) <br/>
+3.b. Merge variant-calling information from all samples and perform variant quality score recalibration ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/master/docs/core/03b_variant_calling.md)) <br/>
+4. Genotype hotspots ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/04a_genotype_hotspots.md)) <br/>
+5. Genotype reads ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05a_genotype_reads.md)) and extract recombination events ([implementation detailed here](https://github.com/MaudGautier/detect-recombinants-in-F2/blob/adapt-F1-to-F2/docs/core/05b_extract_recombinants.md)) <br/>
 
 
 
